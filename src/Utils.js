@@ -66,31 +66,47 @@ const extractKeyFromJwtTokenPayload = (key, token) => {
   return JSON.parse(decoded)[key];
 };
 
-const isAccessTokenExpired = async () =>
-  TokenStorage.getTokens()
-    .then(({ access_token: accessToken }) => {
-      const tokenExpirationTime = extractKeyFromJwtTokenPayload('exp', accessToken);
-      const now = Date.now() / 1000;
-      return tokenExpirationTime > now;
-    }).catch((e) => {
-      console.error(`Error in 'async isAccessTokenExpired()' call: ${e}`);
-      Promise.reject(e);
-    });
+const isAccessTokenExpired = async () => {
+  try {
+    const { access_token: accessToken } = await TokenStorage.getTokens();
+    const tokenExpirationTime = extractKeyFromJwtTokenPayload('exp', accessToken);
+    const now = Date.now() / 1000;
+    return tokenExpirationTime > now;
+  } catch (e) {
+    console.error(`Error in 'isAccessTokenExpired()' call: ${e}`);
+    return false;
+  }
+};
 
-const willAccessTokenExpireInLessThan = async seconds =>
-  TokenStorage.getTokens()
-    .then(({ access_token: accessToken }) => {
-      const tokenExpirationTime = extractKeyFromJwtTokenPayload('exp', accessToken);
-      const now = Date.now() / 1000;
-      return (tokenExpirationTime - now) < seconds;
-    }).catch((e) => {
-      console.error(`Error in 'async isAccessTokenExpired()' call: ${e}`);
-      Promise.reject(e);
-    });
+const isAccessTokenExpiredSync = ({ access_token: accessToken }) => {
+  const tokenExpirationTime = extractKeyFromJwtTokenPayload('exp', accessToken);
+  const now = Date.now() / 1000;
+  return tokenExpirationTime > now;
+};
+
+const willAccessTokenExpireInLessThan = async (seconds) => {
+  try {
+    const { access_token: accessToken } = await TokenStorage.getTokens();
+    const tokenExpirationTime = extractKeyFromJwtTokenPayload('exp', accessToken);
+    const now = Date.now() / 1000;
+    return (tokenExpirationTime - now) < seconds;
+  } catch (e) {
+    console.error(`Error in 'willAccessTokenExpireInLessThan()' call: ${e}`);
+    return false;
+  }
+};
+
+const willAccessTokenExpireInLessThanSync = (seconds, { access_token: accessToken }) => {
+  const tokenExpirationTime = extractKeyFromJwtTokenPayload('exp', accessToken);
+  const now = Date.now() / 1000;
+  return (tokenExpirationTime - now) < seconds;
+};
 
 const TokensUtils = {
   isAccessTokenExpired,
+  isAccessTokenExpiredSync,
   willAccessTokenExpireInLessThan,
+  willAccessTokenExpireInLessThanSync,
 };
 
 
