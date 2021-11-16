@@ -204,7 +204,7 @@ export const logout = async () => {
     return Promise.reject();
   }
 
-  const { realm, 'auth-server-url': authServerUrl } = conf;
+  const { realm, 'auth-server-url': authServerUrl, resource } = conf;
   const savedTokens = await TokenStorage.getTokens();
 
   if (!savedTokens) {
@@ -213,8 +213,12 @@ export const logout = async () => {
   }
 
   const logoutUrl = `${getRealmURL(realm, authServerUrl)}/protocol/openid-connect/logout`;
-  const method = GET;
-  const options = { headers: basicHeaders, method };
+  const method = POST;
+  const headers = { ...basicHeaders, Authorization: `Bearer ${savedTokens.access_token}` };
+  const body = qs.stringify({
+    client_id: resource, refresh_token: savedTokens.refresh_token,
+  });
+  const options = { headers, method, body };
   const fullResponse = await fetch(logoutUrl, options);
 
   if (fullResponse.ok) {
@@ -225,3 +229,4 @@ export const logout = async () => {
   console.error(`Error during kc-logout: ${fullResponse.status}: ${fullResponse.url}`);
   return Promise.reject();
 };
+
