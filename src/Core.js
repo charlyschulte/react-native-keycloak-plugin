@@ -59,7 +59,7 @@ const retrieveTokens = async (conf, code, resolve, reject, deepLinkUrl) => {
   }
 };
 
-const performLogin = async (conf, username, password, scope = 'info') => {
+const performLogin = async (conf, username, password, scope) => {
   const {
     resource, realm, credentials, 'auth-server-url': authServerUrl,
   } = conf;
@@ -86,13 +86,13 @@ const performLogin = async (conf, username, password, scope = 'info') => {
   }
 
   console.error(`Error during kc-api-login, ${fullResponse.status}: ${jsonResponse.error_description}`);
-  return Promise.reject({ ...jsonResponse, status: fullResponse.status });
+  return Promise.reject(new Error({ ...jsonResponse, status: fullResponse.status }));
 };
 
 
 // ### PUBLIC METHODS
 
-export const keycloakUILogin = (conf, callback, scope = 'info') => new Promise(((resolve, reject) => {
+export const keycloakUILogin = (conf, callback, scope) => new Promise(((resolve, reject) => {
   const { url, state } = getLoginURL(conf, scope);
 
   const listener = event => onOpenURL(conf, resolve, reject, state, event, retrieveTokens);
@@ -102,9 +102,9 @@ export const keycloakUILogin = (conf, callback, scope = 'info') => new Promise((
   doLogin(url).then(null);
 }));
 
-export const login = async (conf, username, password, scope = 'info') => performLogin(conf, username, password, scope);
+export const login = async (conf, username, password, scope) => performLogin(conf, username, password, scope);
 
-export const refreshLogin = async (scope = 'info') => {
+export const refreshLogin = async (scope) => {
   const conf = await TokenStorage.getConfiguration();
   if (!conf) {
     console.error('Error during kc-refresh-login: Could not read configuration from storage');

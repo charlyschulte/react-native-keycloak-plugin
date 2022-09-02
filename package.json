@@ -1,6 +1,6 @@
 {
   "name": "react-native-keycloak-plugin",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Functional React Native module for authentication between a client and the keycloak server.",
   "main": "src/index.js",
   "scripts": {
@@ -30,12 +30,11 @@
   },
   "homepage": "https://github.com/lucataglia/react-native-login-keycloak#readme",
   "dependencies": {
-    "@react-native-async-storage/async-storage": "1.13.4",
-    "base-64": "^0.1.0",
-    "eslint-plugin-react": "^7.5.1",
-    "query-string": "^5.0.1",
-    "react-native": "^0.63.4",
-    "uuid": "^3.1.0"
+    "@react-native-async-storage/async-storage": "^1.17.10",
+    "base-64": "^1.0.0",
+    "query-string": "^7.1.1",
+    "react-native": "^0.66.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "babel-eslint": "^8.0.3",
