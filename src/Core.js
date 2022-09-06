@@ -196,37 +196,42 @@ export const refreshToken = async () => {
   return Promise.reject(jsonResponse);
 };
 
-export const logout = async () => {
-  const conf = await TokenStorage.getConfiguration();
+export const logout = async (destroySession = true) => {
+  if (destroySession) {
+    const conf = await TokenStorage.getConfiguration();
 
-  if (!conf) {
-    console.error('Could not read configuration from storage');
+    if (!conf) {
+      console.error('Could not read configuration from storage');
+      return Promise.reject();
+    }
+
+    const { realm, 'auth-server-url': authServerUrl, resource } = conf;
+    const savedTokens = await TokenStorage.getTokens();
+
+    if (!savedTokens) {
+      console.error(`Error during kc-logout, savedTokens is ${savedTokens}`);
+      return Promise.reject();
+    }
+
+    const logoutUrl = `${getRealmURL(realm, authServerUrl)}/protocol/openid-connect/logout`;
+    const method = POST;
+    const headers = { ...basicHeaders, Authorization: `Bearer ${savedTokens.access_token}` };
+    const body = qs.stringify({
+      client_id: resource, refresh_token: savedTokens.refresh_token,
+    });
+    const options = { headers, method, body };
+    const fullResponse = await fetch(logoutUrl, options);
+
+    if (fullResponse.ok) {
+      await TokenStorage.clearSession();
+      return Promise.resolve();
+    }
+
+    console.error(`Error during kc-logout: ${fullResponse.status}: ${fullResponse.url}`);
     return Promise.reject();
   }
 
-  const { realm, 'auth-server-url': authServerUrl, resource } = conf;
-  const savedTokens = await TokenStorage.getTokens();
-
-  if (!savedTokens) {
-    console.error(`Error during kc-logout, savedTokens is ${savedTokens}`);
-    return Promise.reject();
-  }
-
-  const logoutUrl = `${getRealmURL(realm, authServerUrl)}/protocol/openid-connect/logout`;
-  const method = POST;
-  const headers = { ...basicHeaders, Authorization: `Bearer ${savedTokens.access_token}` };
-  const body = qs.stringify({
-    client_id: resource, refresh_token: savedTokens.refresh_token,
-  });
-  const options = { headers, method, body };
-  const fullResponse = await fetch(logoutUrl, options);
-
-  if (fullResponse.ok) {
-    await TokenStorage.clearSession();
-    return Promise.resolve();
-  }
-
-  console.error(`Error during kc-logout: ${fullResponse.status}: ${fullResponse.url}`);
-  return Promise.reject();
+  await TokenStorage.clearSession();
+  return Promise.resolve();
 };
 

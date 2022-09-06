@@ -45,14 +45,14 @@ From that variable, you have access to all the util methods the plugin implement
 ### Keycloak.keycloakUILogin
 
 ```js
-Keycloak.keycloakUILogin(conf, callback, scope)
+Keycloak.keycloakUILogin(conf, [callback, scope])
   .then((response) => /* Your resolve */ )
   .catch((error) => /* Your reject*/ )
 ```
 Method arguments:
   - _conf_: The JSON configuration object (see the example below).
   - _callback_: By default the plugin try to open the keycloak login url on the default browser. Using this callback you can override this behavior e.g. handling the login flow into a WebView without leaving the app.
-  - _scope_: By default its value is 'info'. You can override this argument if some custom Keycloak behavior is needed (e.g if you need to handle the Keycloak ID_TOKEN, you have to pass 'openid info offline_access' as value).
+  - _scope_: By default it has no value. You can override this argument if some custom Keycloak behavior is needed (e.g if you need to handle the Keycloak ID_TOKEN, you have to pass 'offline_access' as value).
 
 ```json
 config = {
@@ -65,7 +65,7 @@ config = {
   "credentials": {
     "secret": "<secret_uuid>"
   },
-  "confidential-port": "string",
+  "confidential-port": "number",
 }
 ```
 
@@ -90,7 +90,7 @@ response.tokens = {
 ### Keycloak.login
 
 ```js
-Keycloak.login(conf, username, password, [scope = 'info'])
+Keycloak.login(conf, username, password, [scope])
     .then((response) => /* Your resolve */ )
     .catch((error) => /* Your reject*/ )
 ```
@@ -104,7 +104,7 @@ Method arguments:
 ### Keycloak.refreshLogin  
   
 ```js
-Keycloak.refreshLogin([scope = 'info'])
+Keycloak.refreshLogin([scope])
     .then((response) => /* Your resolve */ )
     .catch((error) => /* Your reject*/ )
 ```
@@ -142,11 +142,13 @@ Passing a configuration JSON object, makes available into the resolve function t
 
 ### Keycloak.logout
 ```js
-Keycloak.logout(conf)
+Keycloak.logout([destroySession = true])
   .then(() => /* Your resolve */ );
   .catch((error) => /* Your reject*/ )
 ```
-Passing a configuration JSON object, the method call takes care of logging out the user as well as removing the tokens from the AsyncStorage.
+
+_destroySession_: Since the `/openid-connect/token` simply returns an `access token` and doesn't create any session on Keycloak side, if you used the `login` method you want to pass false.<br/>
+Passing `true` tries to destroy the session: pay attention that on newer Keycloak versions this raises an error if no session is present, preventing the logout.
 
 ## Utils
 ### TokensUtils.isAccessTokenExpired
@@ -159,15 +161,15 @@ TokensUtils.isAccessTokenExpired()
 ```
 This utils method check if the access token saved into the AsyncStorage is still valid or if it's expired. Since it interact witht the AsyncStorage, a promise must be handled.
 
-### TokensUtils.willAccessTokenExpireInLessThen
+### TokensUtils.willAccessTokenExpireInLessThan
 ```js
 import { TokensUtils } from 'react-native-keycloak-plugin';
 
-TokensUtils.willAccessTokenExpireInLessThen(10)
+TokensUtils.willAccessTokenExpireInLessThan(seconds)
   .then(() => /* Your resolve */ );
   .catch((error) => /* Your reject*/ )
 ```
-This utils method check if the access token saved into the AsyncStorage will expire in less than 10 seconds. Since it interact witht the AsyncStorage, a promise must be handled.
+This utils method check if the access token saved into the AsyncStorage will expire in less than `<seconds>` seconds. Since it interacts with the AsyncStorage, a promise must be handled.
 
 [InstallAnchor]: <https://github.com/lucataglia/react-native-keycloak-plugin#install>
 [SetupAnchor]: <https://github.com/lucataglia/react-native-keycloak-plugin#setup>
