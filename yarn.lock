@@ -4365,6 +4365,11 @@ react-native-codegen@^0.0.7:
     jscodeshift "^0.11.0"
     nullthrows "^1.1.1"
 
+react-native-keychain@^8.1.1:
+  version "8.1.1"
+  resolved "https://registry.yarnpkg.com/react-native-keychain/-/react-native-keychain-8.1.1.tgz#3bb5e37946b964a7bcf7df2fe470dd244e01a340"
+  integrity sha512-8fxgeHKwGcL657eAYpdBTkDIxNhbIHI+kyyO0Yac2dgVAN184JoIwQcW2z6snahwDaCObQOu0biLFHnsH+4KSg==
+
 react-native@^0.66.0:
   version "0.66.4"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.66.4.tgz#bf89a5fb18bd23046d889fb4de4ea2822a4d7805"

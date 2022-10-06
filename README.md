@@ -45,25 +45,25 @@ From that variable, you have access to all the util methods the plugin implement
 ### Keycloak.keycloakUILogin
 
 ```js
-Keycloak.keycloakUILogin(conf, [callback, scope])
+Keycloak.keycloakUILogin(conf, [callback, { scope }])
   .then((response) => /* Your resolve */ )
   .catch((error) => /* Your reject*/ )
 ```
 Method arguments:
   - _conf_: The JSON configuration object (see the example below).
   - _callback_: By default the plugin try to open the keycloak login url on the default browser. Using this callback you can override this behavior e.g. handling the login flow into a WebView without leaving the app.
-  - _scope_: By default it has no value. You can override this argument if some custom Keycloak behavior is needed (e.g if you need to handle the Keycloak ID_TOKEN, you have to pass 'offline_access' as value).
+  - _scope_: You can override this argument if some custom Keycloak behavior is needed (e.g if you need to handle the Keycloak ID_TOKEN, you have to pass 'offline_access' as value).
 
 ```json
 config = {
-  "realm": "<real_name>",
-  "auth-server-url": "https://<domain>/sso/auth/",
-  "appsiteUri": "<your_app_name>",
-  "redirectUri": "<your_app_name>://<stack_screen_name>",
+  "realm": "string",
+  "auth-server-url": "string",
+  "appsiteUri": "string",
+  "redirectUri": "string",
   "ssl-required": "string",
-  "resource": "<resource_name>",
+  "resource": "string",
   "credentials": {
-    "secret": "<secret_uuid>"
+    "secret": "string"
   },
   "confidential-port": "number",
 }
@@ -90,7 +90,7 @@ response.tokens = {
 ### Keycloak.login
 
 ```js
-Keycloak.login(conf, username, password, [scope])
+Keycloak.login(conf, username, password, options)
     .then((response) => /* Your resolve */ )
     .catch((error) => /* Your reject*/ )
 ```
@@ -99,21 +99,27 @@ Method arguments:
   - _conf_: The JSON configuration object (see the example above).
   - _username_: The username to be logged in
   - _password_: The password associated to the above username
-  - _scope_: same behavior as above
+  - _options_: JSON containing the following fields:
+    - _scope_: same behavior as above
+    - _storeInfo_: `boolean`, whether the plugin should save the result into the AsyncStorage. Defaults to `true`
   
 ### Keycloak.refreshLogin  
   
 ```js
-Keycloak.refreshLogin([scope])
+Keycloak.refreshLogin(options)
     .then((response) => /* Your resolve */ )
     .catch((error) => /* Your reject*/ )
 ```
 
 Method arguments:
-  - _scope_: same behavior as above
+  - _options_: JSON containing the following fields (all are optional):
+    - _scope_: same behavior as above
+    - _inputConf_: a config object to be used
+    - _inputCredentials_: a JSON Object shaped with `{ username, password }`
+    - _storeInfo_: same behavior as above
 
 Sometimes you may need to re-login your user w/ Keycloak via the login process but, for some reason, you don't want / can't display the login page.<br>
-This method will re-login your user by recycling the last combination of username/password he entered, reading them from the AsyncStorage.
+This method will re-login your user.
 
 #### Manually handling the tokens
 
@@ -125,7 +131,7 @@ Logging in by the login function will save the tokens information, and the confi
 
 ### Keycloak.retrieveUserInfo
 ```js
-Keycloak.retrieveUserInfo(conf)
+Keycloak.retrieveUserInfo({ inputConf, inputTokens })
   .then((userInfo) => /* Your resolve */ );
   .catch((error) => /* Your reject*/ )
 ```
@@ -133,16 +139,15 @@ Passing a configuration JSON object, makes available into the resolve function t
 
 ### Keycloak.refreshToken
 ```js
-Keycloak.refreshToken(conf)
+Keycloak.refreshToken({ inputConf, inputTokens })
   .then((response) => /* Your resolve */ );
   .catch((error) => /* Your reject*/ )
 ```
 Passing a configuration JSON object, makes available into the resolve function the JSON containing the refreshed tokens. This information are also saved into the AsyncStorage, as described above.
 
-
 ### Keycloak.logout
 ```js
-Keycloak.logout([destroySession = true])
+Keycloak.logout({ destroySession = true, inputConf, inputTokens })
   .then(() => /* Your resolve */ );
   .catch((error) => /* Your reject*/ )
 ```
