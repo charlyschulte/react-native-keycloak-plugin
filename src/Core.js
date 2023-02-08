@@ -1,4 +1,4 @@
-import * as qs from 'query-string';
+import qs from 'query-string';
 import { Linking } from 'react-native';
 import { encode as btoa } from 'base-64';
 import { getRealmURL, getLoginURL } from './Utils';
