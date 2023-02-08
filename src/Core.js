@@ -87,11 +87,11 @@ const performLogin = async (conf, username, password, { scope, storeInfo = true 
     return jsonResponse;
   }
 
-  return Promise.reject(Error({
+  return Promise.reject(Error(JSON.stringify({
     ...jsonResponse,
     errorMessage: `Error during kc-api-login, ${fullResponse.status}: ${jsonResponse.error_description}`,
     status: fullResponse.status,
-  }));
+  })));
 };
 
 
@@ -191,10 +191,10 @@ const refreshToken = async ({ inputConf, inputTokens } = {}) => {
     return jsonResponse;
   }
 
-  return Promise.reject(Error({
+  return Promise.reject(Error(JSON.stringify({
     ...jsonResponse,
     errorMessage: `Error during kc-refresh-token, ${fullResponse.status}: ${fullResponse.url}`,
-  }));
+  })));
 };
 
 const logout = async ({ destroySession = true, inputConf, inputTokens } = {}) => {
