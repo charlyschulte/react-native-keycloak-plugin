@@ -27,6 +27,6 @@ jobs:
           node-version: 16
           registry-url: https://registry.npmjs.org/
       - run: npm install --legacy-peer-deps
-      - run: npm publish
+      - run: npm publish charlyschulte/react-native-keycloak-plugin@${{ github.event.release.tag_name }}
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
