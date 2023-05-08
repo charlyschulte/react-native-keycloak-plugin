@@ -1,5 +1,6 @@
 # react-native-keycloak-plugin
-This is a fork of mahomahoxd's react-native-login-keycloak module. I started from that to build some new feature using a functional style.
+This is a fork of  lucataglia's react-native-login-keycloak module. I started from that to add some features and also add the ability to create issues and work together on that project.
+lastly i wanted to add typescript support to that project
 
 This plugin exposes some util methods to interact with [Keycloak][KeycloakHome] in order to handle the user session. 
 
