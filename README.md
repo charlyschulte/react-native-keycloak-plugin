@@ -15,13 +15,13 @@ This plugin exposes some util methods to interact with [Keycloak][KeycloakHome] 
 ### Using npm
 
 ```shell
-npm i --save react-native-keycloak-plugin
+npm i @charlyschulte/react-native-keycloak-plugin
 ```
 
 ### Using yarn
 
 ```shell
-yarn add react-native-keycloak-plugin
+yarn add @charlyschulte/react-native-keycloak-plugin
 ```
 
 ## Setup
