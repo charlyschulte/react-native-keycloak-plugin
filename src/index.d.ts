@@ -22,9 +22,9 @@ export interface storedToken {
   token_type: string;
 }
 export interface scope {
-  scope:string
+  scope: string
 }
-export interface loginOptions{
+export interface loginOptions {
   storeInfo: boolean;
   scope: string;
 }
@@ -34,23 +34,23 @@ export interface refreshLoginOptions {
 
   };
   inputCredentials: {
-    username : string;
-    password : string;
+    username: string;
+    password: string;
     storeInfo: boolean;
   }
 }
-export interface retrieveUserInfoReturn{
-  email: string; 
+export interface retrieveUserInfoReturn {
+  email: string;
   email_verified: boolean;
   preferred_username: string;
   sub: string;
 }
-export interface logoutInterface{
+export interface logoutInterface {
   destroySession: boolean;
   inputConf: JSON;
-  inputTokens:JSON
+  inputTokens: JSON
 }
-export interface refreshTokenInterface{
+export interface refreshTokenInterface {
   inputConf: JSON;
   inputTokens: JSON;
 }
@@ -69,13 +69,13 @@ export interface refreshTokenInterface{
 //   function willAccessTokenExpireInLessThan():Promise<false|number>;
 //   function willAccessTokenExpireInLessThanSync():false|number;
 // }
-declare module 'Keycloak' {
-  function keycloakUILogin(conf:keycloakConfig, callback:Function, scope:scope):Promise<storedToken>;
-  function login(conf:keycloakConfig, username:string, password:string, options:loginOptions):Promise<JSON|Error>;
-  function refreshLogin(options:refreshLoginOptions):Promise<JSON|Error>;
-  function retrieveUserInfo():Promise<JSON|Error>;
-  function logout(conf: logoutInterface):Promise<void>;
-  function refreshToken(conf: refreshTokenInterface):Promise<JSON|Error>;
+declare const Keycloak: {
+  keycloakUILogin(conf: keycloakConfig, callback: Function, scope: scope): Promise<storedToken>;
+  login(conf: keycloakConfig, username: string, password: string, options: loginOptions): Promise<JSON | Error>;
+  refreshLogin(options: refreshLoginOptions): Promise<JSON | Error>;
+  retrieveUserInfo(): Promise<JSON | Error>;
+  logout(conf: logoutInterface): Promise<void>;
+  refreshToken(conf: refreshTokenInterface): Promise<JSON | Error>;
 }
 export { default as TokenStorage } from './TokenStorage';
 export { TokensUtils } from './Utils';
