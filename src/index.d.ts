@@ -54,21 +54,21 @@ export interface refreshTokenInterface{
   inputConf: JSON;
   inputTokens: JSON;
 }
-declare module 'TokenStorage' {
-  function saveCredentials(username: string, password: string): Promise<void>;
-  function saveConfiguration(conf: keycloakConfig): Promise<void>;
-  function saveTokens(tokens: storedToken): Promise<void>;
-  function getCredentials(): Promise<false | UserCredentials>;
-  function getConfiguration(): Promise<undefined | keycloakConfig>;
-  function getTokens(): Promise<undefined | storedToken>;
-  function clearSession(): Promise<void>
-}
-declare module 'TokensUtils' {
-  function isAccessTokenExpired():Promise<boolean>;
-  function isAccessTokenExpiredSync():boolean;
-  function willAccessTokenExpireInLessThan():Promise<false|number>;
-  function willAccessTokenExpireInLessThanSync():false|number;
-}
+// declare module 'TokenStorage' {
+//   function saveCredentials(username: string, password: string): Promise<void>;
+//   function saveConfiguration(conf: keycloakConfig): Promise<void>;
+//   function saveTokens(tokens: storedToken): Promise<void>;
+//   function getCredentials(): Promise<false | UserCredentials>;
+//   function getConfiguration(): Promise<undefined | keycloakConfig>;
+//   function getTokens(): Promise<undefined | storedToken>;
+//   function clearSession(): Promise<void>
+// }
+// declare module 'TokensUtils' {
+//   function isAccessTokenExpired():Promise<boolean>;
+//   function isAccessTokenExpiredSync():boolean;
+//   function willAccessTokenExpireInLessThan():Promise<false|number>;
+//   function willAccessTokenExpireInLessThanSync():false|number;
+// }
 declare module 'Keycloak' {
   function keycloakUILogin(conf:keycloakConfig, callback:Function, scope:scope):Promise<storedToken>;
   function login(conf:keycloakConfig, username:string, password:string, options:loginOptions):Promise<JSON|Error>;
