@@ -77,5 +77,6 @@ declare const Keycloak: {
   logout(conf: logoutInterface): Promise<void>;
   refreshToken(conf: refreshTokenInterface): Promise<JSON | Error>;
 }
+export default Keycloak;
 export { default as TokenStorage } from './TokenStorage';
 export { TokensUtils } from './Utils';
