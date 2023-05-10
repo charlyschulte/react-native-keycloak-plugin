@@ -71,7 +71,7 @@ const isAccessTokenExpired = async () => {
     const { access_token: accessToken } = await TokenStorage.getTokens();
     const tokenExpirationTime = extractKeyFromJwtTokenPayload('exp', accessToken);
     const now = Date.now() / 1000;
-    return tokenExpirationTime > now;
+    return tokenExpirationTime < now;
   } catch (e) {
     console.error(`Error in 'isAccessTokenExpired()' call: ${e}`);
     return false;
