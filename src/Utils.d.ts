@@ -1,7 +1,7 @@
 declare const TokensUtils: {
     isAccessTokenExpired(): Promise<boolean>;
     isAccessTokenExpiredSync(): boolean;
-    willAccessTokenExpireInLessThan(): Promise<false | number>;
-    willAccessTokenExpireInLessThanSync(): false | number;
+    willAccessTokenExpireInLessThan(seconds:number): Promise<false | number>;
+    willAccessTokenExpireInLessThanSync(seconds:number): false | number;
 }
 export {TokensUtils};
