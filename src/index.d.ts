@@ -77,3 +77,5 @@ declare module 'Keycloak' {
   function logout(conf: logoutInterface):Promise<void>;
   function refreshToken(conf: refreshTokenInterface):Promise<JSON|Error>;
 }
+export { default as TokenStorage } from './TokenStorage';
+export { TokensUtils } from './Utils';
