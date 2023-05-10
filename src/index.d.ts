@@ -70,12 +70,12 @@ export interface refreshTokenInterface {
 //   function willAccessTokenExpireInLessThanSync():false|number;
 // }
 declare const Keycloak: {
-  keycloakUILogin(conf: keycloakConfig, callback: Function, scope: scope): Promise<storedToken>;
-  login(conf: keycloakConfig, username: string, password: string, options: loginOptions): Promise<JSON | Error>;
-  refreshLogin(options: refreshLoginOptions): Promise<JSON | Error>;
+  keycloakUILogin(conf: keycloakConfig, callback?: Function, scope?: scope): Promise<storedToken>;
+  login(conf: keycloakConfig, username: string, password: string, options?: loginOptions): Promise<JSON | Error>;
+  refreshLogin(options?: refreshLoginOptions): Promise<JSON | Error>;
   retrieveUserInfo(): Promise<JSON | Error>;
-  logout(conf: logoutInterface): Promise<void>;
-  refreshToken(conf: refreshTokenInterface): Promise<JSON | Error>;
+  logout(conf?: logoutInterface): Promise<void>;
+  refreshToken(conf?: refreshTokenInterface): Promise<JSON | Error>;
 }
 export default Keycloak;
 export { default as TokenStorage } from './TokenStorage';
