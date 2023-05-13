@@ -7,10 +7,11 @@ export interface keycloakConfig {
   'ssl-required': string;
   redirectUri: string;
   resource: string;
-  credentials: {
+  credentials?: {
     secret: string;
   };
   'confidential-port': number;
+  scope: string |undefined
 }
 export interface storedToken {
   access_token: string;
