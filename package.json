@@ -1,6 +1,6 @@
 {
   "name": "@charlyschulte/react-native-keycloak-plugin",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Functional React Native module for authentication between a client and the keycloak server.",
   "main": "src/index.js",
   "types": "src/index.d.ts",
