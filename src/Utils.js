@@ -1,6 +1,6 @@
 import { decode as atob } from 'base-64';
 import qs from 'query-string';
-import { uuid } from 'uuidv4';
+import { v4 as uuidv4 } from 'uuid';
 import TokenStorage from './TokenStorage';
 
 
@@ -41,7 +41,7 @@ const getLoginURL = (conf, scope) => {
     realm, redirectUri, resource, kcIdpHint, options, 'auth-server-url': authServerUrl,
   } = conf;
   const responseType = 'code';
-  const state = uuid();
+  const state = uuidv4();
   const url = `${getRealmURL(realm, authServerUrl)}/protocol/openid-connect/auth?${qs.stringify({
     scope,
     kc_idp_hint: kcIdpHint,
