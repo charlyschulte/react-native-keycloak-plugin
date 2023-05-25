@@ -1,6 +1,6 @@
 {
   "name": "@charlyschulte/react-native-keycloak-plugin",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Functional React Native module for authentication between a client and the keycloak server.",
   "main": "src/index.js",
   "types": "src/index.d.ts",
@@ -42,6 +42,7 @@
   "devDependencies": {
     "babel-eslint": "^8.0.3",
     "eslint": "^8.40.0",
+    "react-native-get-random-values":"^1.9.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.27.5",

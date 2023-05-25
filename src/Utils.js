@@ -1,5 +1,6 @@
 import { decode as atob } from 'base-64';
 import * as qs from 'query-string';
+import 'react-native-get-random-values';
 import { v4 } from 'uuid';
 import TokenStorage from './TokenStorage';
 
