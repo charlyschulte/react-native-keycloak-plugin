@@ -1,7 +1,6 @@
 import { decode as atob } from 'base-64';
-import * as qs from 'query-string';
-import 'react-native-get-random-values';
-import { v4 } from 'uuid';
+import qs from 'query-string';
+import uuid from 'react-native-uuid';
 import TokenStorage from './TokenStorage';
 
 
@@ -42,7 +41,7 @@ const getLoginURL = (conf, scope) => {
     realm, redirectUri, resource, kcIdpHint, options, 'auth-server-url': authServerUrl,
   } = conf;
   const responseType = 'code';
-  const state = v4();
+  const state = uuid.v4();
   const url = `${getRealmURL(realm, authServerUrl)}/protocol/openid-connect/auth?${qs.stringify({
     scope,
     kc_idp_hint: kcIdpHint,
